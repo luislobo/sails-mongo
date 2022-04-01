@@ -17,6 +17,13 @@ describe('clarifyError', function () {
     assert(validationError.code === 'E_UNIQUE');
   });
 
+  it('returns a validation error if passed a MongoDB duplicate key error (MongoDb 4.2)', function () {
+    var err = createErrorNew('test', 'collection', 'name', 'test');
+    var validationError = clarifyError(err);
+
+    assert(validationError.code === 'E_UNIQUE');
+  });
+
   it('extracts properties from the error message and populates the validation error', function () {
     var err = createError('test', 'collection', 'name', 'test');
     var validationError = clarifyError(err);
@@ -96,5 +103,12 @@ function createError (database, collection, attribute, value) {
   return {
     code: 11000,
     errmsg: 'E11000 duplicate key error index: ' + database + '.' + collection + '.' + '$' + attribute + '_42 dup key: { : ' + JSON.stringify(value) + ' }'
+  };
+}
+
+function createErrorNew (database, collection, attribute, value) {
+  return {
+    code: 11000,
+    errmsg: 'E11000 duplicate key error collection: ' + database + '.' + collection + ' index: ' + attribute + '_1 dup key: { '+ attribute + ': ' + JSON.stringify(value) + ' }'
   };
 }

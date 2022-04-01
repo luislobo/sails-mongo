@@ -1,5 +1,8 @@
 # Sails-Mongo Changelog
 
+### 0.12.3-2
+* [ENHANCEMENT] Support MongoDB 4.2 error messages
+
 ### 0.12.2
 
 * [INTERNAL] Bump and pin dependency versions
