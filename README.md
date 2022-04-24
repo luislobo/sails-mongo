@@ -28,7 +28,7 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 ## Compatibility
 
-> This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
+> This version of the adapter has been tested with the supported MongoDB versions 4.2, 4.4, and 5.0.
 > It uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect). If you're upgrading from an older version, note that there are some updated, changed, new and deprecated options.
 
 This adapter implements the following methods:
@@ -57,7 +57,7 @@ This adapter implements the following methods:
 See [Extending Sails > Adapters > Custom Adapters](http://sailsjs.com/documentation/concepts/extending-sails/adapters/custom-adapters) in the [Sails documentation](http://sailsjs.com/documentation), or check out [recommended support options](http://sailsjs.com/support).
 
 
-## Contributing &nbsp; [![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo) &nbsp; [![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
+## Contributing &nbsp; [![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://app.travis-ci.com/github/balderdashy/sails-mongo) &nbsp; [![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
 
 Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/documentation/contributing) when opening issues or submitting pull requests.
 
@@ -66,7 +66,7 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 
 #### Development and Test
 
-This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
+This repository includes a Docker Compose file that helps setting-up the environment needed to run the test.
 
 The `npm test` command expects a local MongoDB instance running.
 
@@ -89,10 +89,10 @@ The `npm run docker-test` command runs the tests on a single run under the lates
 It automatically starts a MongoDB docker instance, and it stops it. This is useful for one time local tests.
 Note that since this command stops MongoDB, `npm test` will fail.
 
-When running automation tests in Travis, the module is tested under a combination of Node.js 10, 12, 14 and
-MongoDB: 3.6, 4.0, 4.2.
+When running automation tests in Travis, the module is tested under a combination of Node.js 12, 14, 16, 18 and
+MongoDB: 4.2, 4.4 and 5.0.
 
-When running automation tests in AppVeyor, the module is tested under a combination of Node.js 10, 12, 14 and
+When running automation tests in AppVeyor, the module is tested under a combination of Node.js 12, 14, 16, 18 and
 the MongoDB version that AppVeyor supports. Multiple MongoDB version are not tested in AppVeyor.
 
 For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
