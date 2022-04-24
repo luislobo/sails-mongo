@@ -17,9 +17,10 @@ environment:
   WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
   NODE_ENV: test
   matrix:
-    - nodejs_version: "10"
     - nodejs_version: "12"
     - nodejs_version: "14"
+    - nodejs_version: "16"
+    - nodejs_version: "18"
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -29,7 +30,7 @@ install:
   # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
   - npm config set send-metrics false
   # Install declared dependencies
-  - npm install --no-audit
+  - npm install --no-audit --no-fund
 
 branches:
   only:
