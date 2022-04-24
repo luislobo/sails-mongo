@@ -33,8 +33,8 @@ jobs:
           npm config set send-metrics false
           npm install --no-audit --no-fund
 
-      - name: MongoDB ${{ matrix.mongodb-version }} on ${{ matrix.os }}
-      - run: npm test
+      - name: Run test using MongoDB ${{ matrix.mongodb-version }} on ${{ matrix.os }}
+        run: npm test
         env:
           WATERLINE_ADAPTER_TESTS_URL: localhost/testdb
           WATERLINE_ADAPTER_TESTS_HOST: localhost
