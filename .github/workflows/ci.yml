@@ -1,0 +1,38 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x, 18.x]
+        mongodb-version: ['4.2', '4.4', '5.0']
+
+    services:
+      mongodb:
+        # Docker Hub image
+        image: mongo:${{ matrix.mongodb-version }}
+        ports:
+          - 27017:27017
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: |
+          npm config set send-metrics false
+          npm install --no-audit --no-fund
+
+      - run: npm test
+        env:
+          WATERLINE_ADAPTER_TESTS_URL: localhost/testdb
+          WATERLINE_ADAPTER_TESTS_HOST: localhost
+          WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
+          NODE_ENV: test
