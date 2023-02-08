@@ -8,22 +8,19 @@
  * are tested. (e.g. `queryable`, `semantic`, etc.)
  */
 
-
 /**
  * Module dependencies
  */
-
-var util = require('util');
-var mocha = require('mocha');
-var log = require('captains-log')();
-var TestRunner = require('waterline-adapter-tests');
-var Adapter = require('../../lib/adapter');
-
+const util = require('util');
+const mocha = require('mocha');
+const log = require('captains-log')();
+const TestRunner = require('waterline-adapter-tests');
+const Adapter = require('../../lib/adapter');
 
 // Grab targeted interfaces from this adapter's `package.json` file:
-var package = {},
-  interfaces = [],
-  features = [];
+let package = {};
+let interfaces = [];
+let features = [];
 try {
   package = require('../../package.json');
   interfaces = package.waterlineAdapter.interfaces;
@@ -67,11 +64,10 @@ new TestRunner({
 
   // Default connection config to use.
   config: {
-    host: process.env.MONGO_PORT_27017_TCP_ADDR || process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost',
+    url: `mongodb://${process.env.MONGO_PORT_27017_TCP_ADDR || process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost'}:${process.env.WATERLINE_ADAPTER_TESTS_PORT || 27017}/${process.env.WATERLINE_ADAPTER_TESTS_DATABASE || 'sails-mongo'}`,
     database: process.env.WATERLINE_ADAPTER_TESTS_DATABASE || 'sails-mongo',
-    port: process.env.WATERLINE_ADAPTER_TESTS_PORT || 27017,
     schema: true,
-    poolSize: 1
+    minPoolSize: 1
   },
 
 

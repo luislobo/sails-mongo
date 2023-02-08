@@ -1,30 +1,30 @@
-var assert = require('assert');
-var _ = require('@sailshq/lodash');
-var Query = require('../../lib/query');
+const assert = require('assert');
+const _ = require('@sailshq/lodash');
+const Query = require('../../lib/query');
 
 describe('Query', function() {
 
   describe('normalize OR clause', function() {
 
     it('should allow OR and an array value', function() {
-      var options = {
+      const options = {
         where: {
           or: [
             {
               id: [
-                "536014d4226745c20e40fcb6",
-                "52aa8260bcbb564333000023"
-              ]
+                '536014d4226745c20e40fcb6',
+                '52aa8260bcbb564333000023',
+              ],
             },
             {
-              name: "foo"
-            }
-          ]
-        }
+              name: 'foo',
+            },
+          ],
+        },
       };
 
-      var Q = new Query(options, { id: { type: 'string' }});
-      var criteria = Q.criteria.where;
+      const Q = new Query(options, {id: {type: 'string'}});
+      const criteria = Q.criteria.where;
 
       assert(criteria.hasOwnProperty('$or'));
       assert(criteria['$or'].length === 2);
@@ -35,26 +35,26 @@ describe('Query', function() {
     });
 
     it('should accept `null` clause without throwing error', function () {
-      var options = {
+      const options = {
         where: {
-          or: [null]
-        }
+          or: [null],
+        },
       };
-      var Q = new Query(options, { id: { type: 'string' }});
-      var criteria = Q.criteria.where;
+      const Q = new Query(options, {id: {type: 'string'}});
+      const criteria = Q.criteria.where;
       assert(criteria.hasOwnProperty('$or'));
       assert(criteria['$or'].length === 1);
       assert(_.isEmpty(criteria['$or'][0]));
     });
 
     it('should accept `null` without throwing error', function () {
-      var options = {
+      const options = {
         where: {
-          or: null
-        }
+          or: null,
+        },
       };
-      var Q = new Query(options, { id: { type: 'string' }});
-      var criteria = Q.criteria.where;
+      const Q = new Query(options, {id: {type: 'string'}});
+      const criteria = Q.criteria.where;
       assert(criteria.hasOwnProperty('$or') === false);
     });
 

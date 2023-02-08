@@ -1,32 +1,32 @@
-var assert = require('assert');
-var clarifyError = require('../../lib/utils').clarifyError;
+const assert = require('assert');
+const clarifyError = require('../../lib/utils').clarifyError;
 
 describe('clarifyError', function () {
   it('returns the original error object if it does not have the proper error code', function () {
-    var err = new Error();
+    const err = new Error();
     err.code = 9001;
 
-    var validationError = clarifyError(err);
+    const validationError = clarifyError(err);
     assert.strictEqual(validationError, err);
   });
 
   it('returns a validation error if passed a MongoDB duplicate key error', function () {
-    var err = createError('test', 'collection', 'name', 'test');
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name', 'test');
+    const validationError = clarifyError(err);
 
     assert(validationError.code === 'E_UNIQUE');
   });
 
   it('returns a validation error if passed a MongoDB duplicate key error (MongoDb 4.2)', function () {
-    var err = createErrorNew('test', 'collection', 'name', 'test');
-    var validationError = clarifyError(err);
+    const err = createErrorNew('test', 'collection', 'name', 'test');
+    const validationError = clarifyError(err);
 
     assert(validationError.code === 'E_UNIQUE');
   });
 
   it('extracts properties from the error message and populates the validation error', function () {
-    var err = createError('test', 'collection', 'name', 'test');
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name', 'test');
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
@@ -36,8 +36,9 @@ describe('clarifyError', function () {
   });
 
   it('handles underscores in database names, collections, and attributes correctly', function () {
-    var err = createError('test_db', 'my_collection_name', 'my_field_name', 'test_value');
-    var validationError = clarifyError(err);
+    const err = createError('test_db', 'my_collection_name', 'my_field_name',
+        'test_value');
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['my_field_name'] && validationError.invalidAttributes['my_field_name'][0]);
@@ -47,8 +48,8 @@ describe('clarifyError', function () {
   });
 
   it('handles attributes ending in _[digits] correctly', function () {
-    var err = createError('test', 'collection', 'name_123', 'test');
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name_123', 'test');
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['name_123'] && validationError.invalidAttributes['name_123'][0]);
@@ -58,8 +59,9 @@ describe('clarifyError', function () {
   });
 
   it('handles values with escaped quotation marks correctly', function () {
-    var err = createError('test', 'collection', 'name', '"this" here \\is\\ a "test"');
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name',
+        '"this" here \\is\\ a "test"');
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
@@ -69,8 +71,8 @@ describe('clarifyError', function () {
   });
 
   it('handles non-string values correctly', function () {
-    var err = createError('test', 'collection', 'name', 360.25);
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name', 360.25);
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
@@ -80,8 +82,9 @@ describe('clarifyError', function () {
   });
 
   it('uses the string representation of non-JSON-serializable values', function () {
-    var err = createError('test', 'collection', 'name', 'ObjectId("507f191e810c19729de860ea")');
-    var validationError = clarifyError(err);
+    const err = createError('test', 'collection', 'name',
+        'ObjectId("507f191e810c19729de860ea")');
+    const validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);

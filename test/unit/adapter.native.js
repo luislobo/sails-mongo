@@ -1,43 +1,56 @@
-var Adapter = require('../../lib/adapter'),
-    Config = require('../support/config'),
-    Fixture = require('../support/fixture'),
-    assert = require('assert'),
-    async = require('async');
+const Adapter = require('../../lib/adapter');
+const Config = require('../support/config');
+const Fixture = require('../support/fixture');
+const assert = require('assert');
+const async = require('async');
 
-describe('adapter', function() {
+describe('adapter', function () {
 
-  before(function(done) {
-    var Schema;
+  before(function (done) {
+    let Schema;
 
-    var connection = Config;
-    connection.identity = 'test';
+    const connectionDefinition = Config;
+    connectionDefinition.identity = 'test';
 
-    var collection = { identity: 'foobar', definition: Fixture };
-    collection.definition.connection = 'test';
+    const collection = {identity: 'foobar', definition: Fixture};
+    collection.definition.connectionDefinition = 'test';
 
-    Adapter.registerConnection(connection, { 'foobar': collection }, done);
+    Adapter.registerConnection(connectionDefinition, { 'foobar': collection }, done);
   });
 
+  after(function (done) {
+    let Schema;
 
-  describe('.native()', function() {
+    const connection = Config;
+    connection.identity = 'test';
 
-    it('should allow direct access to the collection object', function(done) {
+    const collection = {identity: 'foobar', definition: Fixture};
+    collection.definition.connection = 'test';
 
-      Adapter.native('test', 'foobar', function(err, collection) {
+    Adapter.teardown(done);
+  });
+
+  describe('.native() callback', function () {
+
+    it('should allow direct access to the collection object', function (done) {
+
+      Adapter.native('test', 'foobar', async function (err, collection) {
         assert(!err);
 
         // Attempt to insert a document
-        collection.insert({hello: 'world'}, {w:1}, function(err, objects) {
-          assert(!err);
-
-          // check that the record was actually inserted
-          collection.findOne({ hello: 'world' }, function(err, doc) {
-            assert(!err);
-            assert(doc.hello === 'world');
-
-            done(err);
-          });
-        });
+        try {
+          const objects = await collection.insertOne({hello: 'world'}, {w: 1});
+        } catch (err) {
+          done(err);
+        }
+        // check that the record was actually inserted
+        try {
+          const doc = await collection.findOne({hello: 'world'});
+          assert(doc.hello === 'world');
+          done();
+        } catch (err) {
+          done(err);
+        }
       });
     });
   });
