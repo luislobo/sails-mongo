@@ -1,14 +1,15 @@
 .git
-./.gitignore
-./.jshintrc
-./.editorconfig
-./.travis.yml
-./appveyor.yml
-./example
-./examples
-./test
-./tests
-./.github
+.gitignore
+.jshintrc
+.eslintrc
+.editorconfig
+.travis.yml
+appveyor.yml
+example
+examples
+test
+tests
+.github
 
 node_modules
 npm-debug.log
@@ -32,3 +33,7 @@ lib-cov
 nbproject
 .tmp
 dump.rdb
+
+Dockerfile
+Makefile
+docker-compose.yml

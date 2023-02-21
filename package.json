@@ -1,5 +1,5 @@
 {
-  "name": "sails-mongo",
+  "name": "@petrocloud/sails-mongo",
   "version": "0.12.5",
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
