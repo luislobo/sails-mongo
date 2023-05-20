@@ -14,9 +14,9 @@ dist: xenial
 language: node_js
 
 node_js:
-  - "12"
   - "14"
   - "16"
+  - "18"
 
 env:
   global:
@@ -26,9 +26,9 @@ env:
     - NODE_ENV=test
 
   matrix:
-    - MONGODB=3.6.18
-    - MONGODB=4.0.18
-    - MONGODB=4.2.7
+    - MONGODB=4.2
+    - MONGODB=4.4
+    - MONGODB=5.0
 
 cache:
   directories:
